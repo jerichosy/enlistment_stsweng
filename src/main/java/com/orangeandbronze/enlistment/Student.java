@@ -1,9 +1,8 @@
 package com.orangeandbronze.enlistment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
+import org.apache.commons.lang3.Validate;
+
+import java.util.*;
 
 class Student {
     private final int studentNumber;
@@ -22,12 +21,25 @@ class Student {
         this.sections.removeIf(Objects::isNull);
     }
 
+    public Student(int studentNumber) {
+        this(studentNumber, Collections.emptyList());
+    }
 
-    void enlist(Section section){
-        if (section==null){
+    void enlist(Section newSection){
+        Validate.notNull(newSection);
+        //loop through all current sections, check for same sched
+        sections.forEach( currSection -> {
+            currSection.checkForConflict(newSection);
+        });
+        if (newSection==null){
             throw new NullPointerException();
         }
-        this.sections.add(section);
+        this.sections.add(newSection);
+    }
+
+
+    Collection<Section> getSections(){
+        return new ArrayList<>(sections);
     }
 
     @Override
