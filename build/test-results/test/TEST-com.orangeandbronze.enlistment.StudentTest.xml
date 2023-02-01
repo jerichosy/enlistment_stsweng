@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.orangeandbronze.enlistment.StudentTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-01-27T09:26:35" hostname="Johns-MacBook-Pro.local" time="0.064">
+<testsuite name="com.orangeandbronze.enlistment.StudentTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-02-01T15:22:59" hostname="Johns-MacBook-Pro.local" time="0.051">
   <properties/>
-  <testcase name="enlist_2_section_same_schedule()" classname="com.orangeandbronze.enlistment.StudentTest" time="0.064"/>
+  <testcase name="student_enlist_to_open_section()" classname="com.orangeandbronze.enlistment.StudentTest" time="0.021"/>
+  <testcase name="student_enlist_to_full_section()" classname="com.orangeandbronze.enlistment.StudentTest" time="0.003"/>
+  <testcase name="enlist_2_sections_no_conflict()" classname="com.orangeandbronze.enlistment.StudentTest" time="0.003"/>
+  <testcase name="student_cancel_enlisted_section()" classname="com.orangeandbronze.enlistment.StudentTest" time="0.002"/>
+  <testcase name="enlist_2_section_same_schedule()" classname="com.orangeandbronze.enlistment.StudentTest" time="0.017"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

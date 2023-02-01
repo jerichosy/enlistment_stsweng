@@ -9,16 +9,20 @@ class Section {
 
     private final String sectionId;
     private final Schedule schedule;
+    private final Room classroom;
 
-    public Section(String sectionId, Schedule schedule) {
+    private int numberOfEnlistedStudent;
+    public Section(String sectionId, Schedule schedule, Room classroom) {
         notNull(schedule);
+        notNull(classroom);
         notBlank(sectionId);
         isTrue(StringUtils.isAlphanumeric(sectionId),
                 "sectionId must be alphanumeric, was:" + sectionId);
         this.sectionId = sectionId;
         this.schedule = schedule;
+        this.classroom = classroom;
+        this.numberOfEnlistedStudent = 0;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -27,7 +31,21 @@ class Section {
         return Objects.equals(sectionId, section.sectionId);
     }
 
+    void checkAvailableSlot(){
+        if(numberOfEnlistedStudent==classroom.getRoomCapacity()){
+            throw new SectionNoAvailableSlotException(
+                    "This section is already full"
+            );
+        }
+    }
 
+    void enlistStudent(){
+        this.numberOfEnlistedStudent = numberOfEnlistedStudent + 1;
+    }
+
+    void dropStudent(){
+        this.numberOfEnlistedStudent = numberOfEnlistedStudent - 1;
+    }
     void checkForConflict(Section section){
         if(this.hasConflict(section)){
             throw new ScheduleConflictException("current section " + section + " has same schedule as new section "

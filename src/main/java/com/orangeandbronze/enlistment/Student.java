@@ -31,12 +31,19 @@ class Student {
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
         });
-        if (newSection==null){
-            throw new NullPointerException();
-        }
+        newSection.checkAvailableSlot();
         this.sections.add(newSection);
+        newSection.enlistStudent();
     }
 
+    void cancelEnlist(Section currentSection){
+        if(!sections.contains(currentSection)){
+            throw new RuntimeException(
+                    "You are not enlisted to the section you want to cancel");
+        }
+        sections.remove(currentSection);
+        currentSection.dropStudent();
+    }
 
     Collection<Section> getSections(){
         return new ArrayList<>(sections);
