@@ -71,5 +71,13 @@ public class StudentTest {
         assertFalse(student1.getSections().containsAll(List.of(sec1)));
     }
 
+    @Test
+    void student_cancel_unenlisted_section(){
+        Student student1 = new Student(1);
+        Room room = new Room("AG1710", 5);
+        Section sec1 = new Section("A", DEFAULT_SCHEDULE, room);
+        assertThrows(Exception.class, ()-> student1.cancelEnlist(sec1));
+    }
+
 }
 
