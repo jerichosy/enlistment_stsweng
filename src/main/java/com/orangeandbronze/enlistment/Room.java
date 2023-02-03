@@ -3,6 +3,8 @@ package com.orangeandbronze.enlistment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Objects;
+
 import static org.apache.commons.lang3.Validate.*;
 
 class Room {
@@ -25,4 +27,16 @@ class Room {
         return this.roomCapacity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return Objects.equals(roomName, room.roomName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomName, roomCapacity);
+    }
 }
