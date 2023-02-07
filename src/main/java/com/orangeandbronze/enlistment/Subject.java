@@ -3,7 +3,6 @@ package com.orangeandbronze.enlistment;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
-import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.commons.lang3.Validate.*;
 
 class Subject {
@@ -11,7 +10,7 @@ class Subject {
 
 
     public Subject(String subjectId){
-        notNull(subjectId);
+        notBlank(subjectId);
         isTrue(StringUtils.isAlphanumeric(subjectId),
                 "subjectId must be alphanumeric, was:" + subjectId);
 

@@ -50,18 +50,33 @@ class Section {
     void dropStudent(){
         this.numberOfEnlistedStudent = numberOfEnlistedStudent - 1;
     }
-    void checkForConflict(Section section){
-        if(this.hasConflict(section)){
+
+    void checkForConflict(Section section) {
+        if(this.hasScheduleConflict(section)){
             throw new ScheduleConflictException("current section " + section + " has same schedule as new section "
                     + section + " at schedule" + section.getSchedule());
         }
+        if (this.hasSubjectConflict(section)){
+            throw new SubjectConflictException("Current section " + section +
+                    " has the same subject " + section.getSubject() + " as the new section.");
+        }
     }
-    boolean hasConflict(Section section){
+    boolean hasScheduleConflict(Section section){
         return this.schedule.equals(section.getSchedule());
     }
+
+    boolean hasSubjectConflict(Section section) {
+        return this.subject.equals(section.getSubject());
+    }
+
     public Schedule getSchedule(){
         return schedule;
     }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
     @Override
     public String toString() {
         return "Section" + sectionId ;
