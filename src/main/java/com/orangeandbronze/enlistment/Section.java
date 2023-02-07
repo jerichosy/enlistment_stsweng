@@ -10,14 +10,17 @@ class Section {
     private final String sectionId;
     private final Schedule schedule;
     private final Room classroom;
+    private final Subject subject;
 
     private int numberOfEnlistedStudent;
-    public Section(String sectionId, Schedule schedule, Room classroom) {
+    public Section(String sectionId, Schedule schedule, Room classroom, Subject subject) {
         notNull(schedule);
         notNull(classroom);
+        notNull(subject);
         notBlank(sectionId);
         isTrue(StringUtils.isAlphanumeric(sectionId),
                 "sectionId must be alphanumeric, was:" + sectionId);
+        this.subject = subject;
         this.sectionId = sectionId;
         this.schedule = schedule;
         this.classroom = classroom;
