@@ -35,9 +35,9 @@
 3. [x] A subject is identified by its alphanumeric Subject ID.
 4. [x] A student cannot enlist in two sections with the same subject.
 5. [ ] A subject may or may not have one or more prerequisite subjects.
-6. [ ] A student may not enlist in a section if the student has not yet taken the prerequisite subjects.
-7. [ ] Each subject has a corresponding number of units.
-8. [ ] Some subjects may be designated as "laboratory" subjects.
+6. [] A student may not enlist in a section if the student has not yet taken the prerequisite subjects.
+7. [x] Each subject has a corresponding number of units.
+8. [x] Some subjects may be designated as "laboratory" subjects.
 9. [ ] A student can request to be assessed, which is simply a request for total amount of money that the student will need to pay. It is computed as follows:
 10. [ ] Each unit is ₱2,000
 11. [ ] Laboratory subjects have an additional ₱1,000 laboratory fee per subject
