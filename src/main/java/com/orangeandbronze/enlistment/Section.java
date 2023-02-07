@@ -31,7 +31,7 @@ class Section {
         return Objects.equals(sectionId, section.sectionId);
     }
 
-    void checkAvailableSlot(){
+    private void checkAvailableSlot(){
         if(numberOfEnlistedStudent==classroom.getRoomCapacity()){
             throw new SectionNoAvailableSlotException(
                     "This section is already full"
@@ -40,6 +40,7 @@ class Section {
     }
 
     void enlistStudent(){
+        checkAvailableSlot();
         this.numberOfEnlistedStudent = numberOfEnlistedStudent + 1;
     }
 

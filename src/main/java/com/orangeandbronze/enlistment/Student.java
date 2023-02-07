@@ -31,9 +31,9 @@ class Student {
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
         });
-        newSection.checkAvailableSlot();
-        this.sections.add(newSection);
         newSection.enlistStudent();
+        this.sections.add(newSection);
+
     }
 
     void cancelEnlist(Section currentSection){
