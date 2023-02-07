@@ -12,8 +12,8 @@ public class StudentTest {
 
     static final Schedule DEFAULT_SCHEDULE = new Schedule(Days.MTH, Period.H1000);
     static final Room DEFAULT_ROOM = new Room("AG1710", 1);
-    static final Subject DEFAULT_SUBJECT1 = new Subject("CCPROG1");
-    static final Subject DEFAULT_SUBJECT2 = new Subject("CCICOMP");
+    static final Subject DEFAULT_SUBJECT1 = new Subject("CCPROG1", 3);
+    static final Subject DEFAULT_SUBJECT2 = new Subject("CCICOMP", 3);
     @Test
     void enlist_2_sections_no_conflict(){
         //Given 1 student and sections w/conflict
@@ -92,6 +92,11 @@ public class StudentTest {
         Room room = new Room("AG1710", 5);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, room, DEFAULT_SUBJECT1);
         assertThrows(Exception.class, ()-> student1.cancelEnlist(sec1));
+    }
+
+    @Test
+    void subject_negative_units(){
+        assertThrows(IllegalArgumentException.class, ()-> new Subject("CCPROG2", -1.0));
     }
 
 }
