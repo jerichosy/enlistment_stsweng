@@ -1,4 +1,3 @@
-
 # Enlistment
 
 ## Iteration 1 Requirements
@@ -9,11 +8,11 @@
 
 3. [x] A section is identified by its section ID, which is alphanumeric
 
-4.[x] A student cannot enlist in the same section more than once
+4. [x] A student cannot enlist in the same section more than once
 
-5.[x] The system makes sure that the student cannot enlist in any section that has a conflict with previously enlisted sections
+5. [x] The system makes sure that the student cannot enlist in any section that has a conflict with previously enlisted sections
 
-6.[x] A section is in conflict with another section if the schedules are in conflict. Schedules are as follows:
+6. [x] A section is in conflict with another section if the schedules are in conflict. Schedules are as follows:
    
     **Days**
       - Mon/Thu
