@@ -8,11 +8,12 @@ import static org.apache.commons.lang3.Validate.*;
 class Subject {
     private final String subjectId;
     private final double units;
+    private final boolean isLaboratory;
 
-
-    public Subject(String subjectId, double units){
+    public Subject(String subjectId, double units, boolean isLaboratory){
         notBlank(subjectId);
         notNull(units);
+        notNull(isLaboratory);
         if (units < 0) {
             throw new IllegalArgumentException("Subject units cannot be negative");
         }
@@ -20,6 +21,7 @@ class Subject {
                 "subjectId must be alphanumeric, was:" + subjectId);
         this.units = units;
         this.subjectId = subjectId;
+        this.isLaboratory = isLaboratory;
     }
 
     @Override
