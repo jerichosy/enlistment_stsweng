@@ -14,6 +14,7 @@ public class StudentTest {
     static final Room DEFAULT_ROOM = new Room("AG1710", 1);
     static final Subject DEFAULT_SUBJECT1 = new Subject("CCPROG1", 3, false);
     static final Subject DEFAULT_SUBJECT2 = new Subject("CCICOMP", 3, false);
+    static final Subject DEFAULT_SUBJECT3 = new Subject("CCPROG2", 3, true);
     @Test
     void enlist_2_sections_no_conflict(){
         //Given 1 student and sections w/conflict
@@ -99,5 +100,23 @@ public class StudentTest {
         assertThrows(IllegalArgumentException.class, ()-> new Subject("CCPROG2", -1.0, false));
     }
 
+    @Test
+    void student_request_assessment() {
+        Student student1 = new Student(1);
+        Schedule schedule = new Schedule(Days.MTH, H1600);
+        Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT3);
+        Section sec2 = new Section("B", schedule, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        double assessment;
+        student1.enlist(sec1);
+        student1.enlist(sec2);
+        assessment = student1.requestAssessment();
+        assertEquals(17920, assessment);
+    }
+
+    @Test
+    void student_request_assessment_no_sections() {
+        Student student1 = new Student(1);
+        assertThrows(Exception.class, student1::requestAssessment);
+    }
 }
 
