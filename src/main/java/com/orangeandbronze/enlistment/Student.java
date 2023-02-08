@@ -52,7 +52,8 @@ class Student {
     double requestAssessment() {
         double valueAddedTax;
         double total = 0;
-
+        double misc = 3000;
+        Validate.notEmpty(sections);
         for (Section currSection : sections) {
             double units;
             double unitCost;
@@ -64,7 +65,7 @@ class Student {
             }
         }
 
-        total += 3000;
+        total += misc;
         valueAddedTax = total * 0.12;
         total += valueAddedTax;
 
