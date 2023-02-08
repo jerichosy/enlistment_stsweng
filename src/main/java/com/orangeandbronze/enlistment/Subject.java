@@ -30,6 +30,13 @@ class Subject {
         this(subjectId, units, isLaboratory, Collections.emptyList());
     }
 
+    public double getUnits() {
+        return units;
+    }
+
+    public boolean getIsLaboratory(){
+        return isLaboratory;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
