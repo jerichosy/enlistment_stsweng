@@ -49,6 +49,28 @@ class Student {
         return new ArrayList<>(sections);
     }
 
+    double requestAssessment() {
+        double valueAddedTax;
+        double total = 0;
+
+        for (Section currSection : sections) {
+            double units;
+            double unitCost;
+            units = currSection.getSubject().getUnits();
+            unitCost = units * 2000;
+            total += unitCost;
+            if (currSection.getSubject().getIsLaboratory()) {
+                total += 1000;
+            }
+        }
+
+        total += 3000;
+        valueAddedTax = total * 0.12;
+        total += valueAddedTax;
+
+        return total;
+    }
+
     @Override
     public String toString() {
         return "Student#" + studentNumber;
