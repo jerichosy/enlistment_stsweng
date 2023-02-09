@@ -24,6 +24,7 @@ class Subject {
         this.units = units;
         this.subjectId = subjectId;
         this.isLaboratory = isLaboratory;
+        this.prerequisites.addAll(prerequisites);
     }
 
     public Subject(String subjectId, double units, boolean isLaboratory) {
