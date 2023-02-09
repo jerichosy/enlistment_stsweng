@@ -33,6 +33,7 @@ class Student {
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
         });
+        newSection.checkForMissingPrerequisites(this.completedSubjects);
         newSection.enlistStudent();
         this.sections.add(newSection);
 
