@@ -1,6 +1,6 @@
 package com.orangeandbronze.enlistment;
 
-import org.apache.commons.lang3.Validate;
+import static org.apache.commons.lang3.Validate.*;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ class Student {
     }
 
     void enlist(Section newSection){
-        Validate.notNull(newSection);
+        notNull(newSection);
         //loop through all current sections, check for same sched
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
@@ -53,7 +53,7 @@ class Student {
         double valueAddedTax;
         double total = 0;
         double misc = 3000;
-        Validate.notEmpty(sections);
+        notEmpty(sections);
         for (Section currSection : sections) {
             double units;
             double unitCost;
