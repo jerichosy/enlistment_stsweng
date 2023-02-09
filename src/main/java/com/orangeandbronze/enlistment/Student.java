@@ -7,8 +7,9 @@ import java.util.*;
 class Student {
     private final int studentNumber;
     private final Collection<Section> sections = new HashSet<>();
+    private final Collection<Subject> completedSubjects = new HashSet<>();
 
-    Student(int studentNumber, Collection<Section> sections){
+    Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects){
         if (studentNumber < 0){
             throw new IllegalArgumentException(
                     "studentNumber should be non-negative, was:" + studentNumber);
@@ -19,10 +20,11 @@ class Student {
         this.studentNumber = studentNumber;
         this.sections.addAll(sections);
         this.sections.removeIf(Objects::isNull);
+        this.completedSubjects.addAll(completedSubjects);
     }
 
     public Student(int studentNumber) {
-        this(studentNumber, Collections.emptyList());
+        this(studentNumber, Collections.emptyList(), Collections.emptyList());
     }
 
     void enlist(Section newSection){
@@ -47,6 +49,10 @@ class Student {
 
     Collection<Section> getSections(){
         return new ArrayList<>(sections);
+    }
+
+    Collection<Subject> getCompletedSubjects(){
+        return new HashSet<>(completedSubjects);
     }
 
     double requestAssessment() {
