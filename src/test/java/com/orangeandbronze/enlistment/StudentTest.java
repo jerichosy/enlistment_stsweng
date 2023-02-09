@@ -6,6 +6,7 @@ import static com.orangeandbronze.enlistment.Days.*;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class StudentTest {
@@ -94,6 +95,57 @@ public class StudentTest {
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, room, DEFAULT_SUBJECT1);
         assertThrows(Exception.class, ()-> student1.cancelEnlist(sec1));
     }
+
+    @Test
+    void student_enlist_section_missing_prerequisites() {
+        Student student = new Student(1);
+        Collection<Subject> prerequisites = new HashSet<>();
+        prerequisites.add(new Subject("CCPROG1", 3, false));
+        Subject subject = new Subject("CCPROG2", 3, false, prerequisites);
+        Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject);
+
+        assertThrows(MissingPrerequisiteException.class, () -> student.enlist(section));
+    }
+
+    @Test
+    void student_enlist_section_correct_prerequisites() {
+        Collection<Subject> prerequisites = new HashSet<>();
+        prerequisites.add(new Subject("CCPROG1", 3, false));
+        Student student = new Student(1, Collections.emptyList(), prerequisites);
+        Subject subject = new Subject("CCPROG2", 3, false, prerequisites);
+        Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject);
+        student.enlist(section);
+        assertTrue(student.getSections().containsAll(List.of(section)));
+    }
+
+    @Test
+    void student_enlist_section_missing_multiple_prerequisites() {
+        Collection<Subject> studentCompletedSubjects = new HashSet<>();
+        studentCompletedSubjects.add(new Subject("CCPROG1", 3, false));
+        Student student = new Student(1, Collections.emptyList(), studentCompletedSubjects);
+
+        Collection<Subject> subjectPrerequisites = new HashSet<>(studentCompletedSubjects);
+        subjectPrerequisites.add(new Subject("CCPROG2", 3, false));
+
+        Subject subject = new Subject("CCPROG3", 3, false, subjectPrerequisites);
+        Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject);
+
+        assertThrows(MissingPrerequisiteException.class, () -> student.enlist(section));
+    }
+
+    @Test
+    void student_enlist_section_correct_multiple_prerequisites() {
+        Collection<Subject> prerequisites = new HashSet<>();
+        prerequisites.add(new Subject("CCPROG1", 3, false));
+        prerequisites.add(new Subject("CCPROG2", 3, false));
+
+        Student student = new Student(1, Collections.emptyList(), prerequisites);
+        Subject subject = new Subject("CCPROG3", 3, false, prerequisites);
+        Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject);
+        student.enlist(section);
+        assertTrue(student.getSections().containsAll(List.of(section)));
+    }
+
 
     @Test
     void subject_negative_units(){

@@ -1,14 +1,15 @@
 package com.orangeandbronze.enlistment;
 
-import org.apache.commons.lang3.Validate;
+import static org.apache.commons.lang3.Validate.*;
 
 import java.util.*;
 
 class Student {
     private final int studentNumber;
     private final Collection<Section> sections = new HashSet<>();
+    private final Collection<Subject> completedSubjects = new HashSet<>();
 
-    Student(int studentNumber, Collection<Section> sections){
+    Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects){
         if (studentNumber < 0){
             throw new IllegalArgumentException(
                     "studentNumber should be non-negative, was:" + studentNumber);
@@ -19,18 +20,20 @@ class Student {
         this.studentNumber = studentNumber;
         this.sections.addAll(sections);
         this.sections.removeIf(Objects::isNull);
+        this.completedSubjects.addAll(completedSubjects);
     }
 
     public Student(int studentNumber) {
-        this(studentNumber, Collections.emptyList());
+        this(studentNumber, Collections.emptyList(), Collections.emptyList());
     }
 
     void enlist(Section newSection){
-        Validate.notNull(newSection);
+        notNull(newSection);
         //loop through all current sections, check for same sched
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
         });
+        newSection.checkForMissingPrerequisites(this.completedSubjects);
         newSection.enlistStudent();
         this.sections.add(newSection);
 
@@ -49,11 +52,15 @@ class Student {
         return new ArrayList<>(sections);
     }
 
+    Collection<Subject> getCompletedSubjects(){
+        return new HashSet<>(completedSubjects);
+    }
+
     double requestAssessment() {
         double valueAddedTax;
         double total = 0;
         double misc = 3000;
-        Validate.notEmpty(sections);
+        notEmpty(sections);
         for (Section currSection : sections) {
             double units;
             double unitCost;

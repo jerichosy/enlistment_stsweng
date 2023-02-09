@@ -2,6 +2,7 @@ package com.orangeandbronze.enlistment;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.*;
@@ -61,12 +62,25 @@ class Section {
                     " has the same subject " + section.getSubject() + " as the new section.");
         }
     }
+
+    void checkForMissingPrerequisites(Collection<Subject> completedSubjects) {
+        if (this.hasMissingPrerequisite(completedSubjects)) {
+            throw new MissingPrerequisiteException("Student is missing prerequisites" + this.getSubject().getPrerequisites());
+        }
+    }
+
     boolean hasScheduleConflict(Section section){
         return this.schedule.equals(section.getSchedule());
     }
 
     boolean hasSubjectConflict(Section section) {
         return this.subject.equals(section.getSubject());
+    }
+
+    boolean hasMissingPrerequisite(Collection<Subject> completedSubjects) {
+        if (this.getSubject().getPrerequisites().isEmpty())
+            return false;
+        return !(completedSubjects.containsAll(this.getSubject().getPrerequisites()));
     }
 
     public Schedule getSchedule(){
