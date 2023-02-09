@@ -38,6 +38,10 @@ class Subject {
     public boolean getIsLaboratory(){
         return isLaboratory;
     }
+
+    public Collection<Subject> getPrerequisites() {
+        return prerequisites;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
