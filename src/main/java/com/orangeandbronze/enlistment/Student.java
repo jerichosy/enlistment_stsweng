@@ -56,7 +56,7 @@ class Student {
         return new HashSet<>(completedSubjects);
     }
 
-    double requestAssessment() {
+    double requestAssessment() { // TODO: use BigDecimal for currency
         double valueAddedTax;
         double total = 0;
         double misc = 3000;

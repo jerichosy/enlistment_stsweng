@@ -63,7 +63,7 @@ class Section {
         }
     }
 
-    void checkForMissingPrerequisites(Collection<Subject> completedSubjects) {
+    void checkForMissingPrerequisites(Collection<Subject> completedSubjects) { // TODO: move this to Subject class
         if (this.hasMissingPrerequisite(completedSubjects)) {
             throw new MissingPrerequisiteException("Student is missing prerequisites" + this.getSubject().getPrerequisites());
         }
