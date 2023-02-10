@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static com.orangeandbronze.enlistment.Period.*;
 import static com.orangeandbronze.enlistment.Days.*;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -158,11 +159,10 @@ public class StudentTest {
         Schedule schedule = new Schedule(Days.MTH, H1600);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT3);
         Section sec2 = new Section("B", schedule, DEFAULT_ROOM, DEFAULT_SUBJECT1);
-        double assessment;
         student1.enlist(sec1);
         student1.enlist(sec2);
-        assessment = student1.requestAssessment();
-        assertEquals(17920, assessment);
+        BigDecimal assessment = student1.requestAssessment();
+        assertTrue(assessment.compareTo(BigDecimal.valueOf(17920)) == 0);
     }
 
     @Test

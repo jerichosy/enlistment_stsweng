@@ -2,6 +2,7 @@ package com.orangeandbronze.enlistment;
 
 import static org.apache.commons.lang3.Validate.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 class Student {
@@ -56,25 +57,24 @@ class Student {
         return new HashSet<>(completedSubjects);
     }
 
-    double requestAssessment() { // TODO: use BigDecimal for currency
-        double valueAddedTax;
-        double total = 0;
-        double misc = 3000;
+    BigDecimal requestAssessment() {
         notEmpty(sections);
+        final BigDecimal VALUE_ADDED_TAX_MULTIPLIER = new BigDecimal("1.12");
+        final BigDecimal MISC_FEES = new BigDecimal(3000);
+        final BigDecimal LABORATORY_FEE = new BigDecimal(1000);
+        final int COST_PER_UNIT = 2000;
+        BigDecimal total = BigDecimal.ZERO;
         for (Section currSection : sections) {
-            double units;
-            double unitCost;
-            units = currSection.getSubject().getUnits();
-            unitCost = units * 2000;
-            total += unitCost;
+            double units = currSection.getSubject().getUnits();  // I'm not sure if this should be BigDecimal
+            BigDecimal unitCost = new BigDecimal(COST_PER_UNIT * units);
+            total = total.add(unitCost);
             if (currSection.getSubject().getIsLaboratory()) {
-                total += 1000;
+                total = total.add(LABORATORY_FEE);
             }
         }
 
-        total += misc;
-        valueAddedTax = total * 0.12;
-        total += valueAddedTax;
+        total = total.add(MISC_FEES);
+        total = total.multiply(VALUE_ADDED_TAX_MULTIPLIER);
 
         return total;
     }
