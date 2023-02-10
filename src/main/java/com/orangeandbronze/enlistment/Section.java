@@ -69,15 +69,15 @@ class Section {
         }
     }
 
-    boolean hasScheduleConflict(Section section){
+    private boolean hasScheduleConflict(Section section){
         return this.schedule.equals(section.getSchedule());
     }
 
-    boolean hasSubjectConflict(Section section) {
+    private boolean hasSubjectConflict(Section section) {
         return this.subject.equals(section.getSubject());
     }
 
-    boolean hasMissingPrerequisite(Collection<Subject> completedSubjects) {
+    private boolean hasMissingPrerequisite(Collection<Subject> completedSubjects) {
         if (this.getSubject().getPrerequisites().isEmpty())
             return false;
         return !(completedSubjects.containsAll(this.getSubject().getPrerequisites()));
