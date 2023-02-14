@@ -10,7 +10,8 @@ class Student {
     private final Collection<Section> sections = new HashSet<>();
     private final Collection<Subject> completedSubjects = new HashSet<>();
 
-    Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects){
+    private final DegreeProgram studentDegreeProgram;
+    Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects, DegreeProgram studentDegreeProgram){
         if (studentNumber < 0){
             throw new IllegalArgumentException(
                     "studentNumber should be non-negative, was:" + studentNumber);
@@ -18,14 +19,16 @@ class Student {
         if (sections == null){
             throw new NullPointerException("sections should not be null");
         }
+        notNull(studentDegreeProgram);
         this.studentNumber = studentNumber;
+        this.studentDegreeProgram = studentDegreeProgram;
         this.sections.addAll(sections);
         this.sections.removeIf(Objects::isNull);
         this.completedSubjects.addAll(completedSubjects);
     }
 
-    public Student(int studentNumber) {
-        this(studentNumber, Collections.emptyList(), Collections.emptyList());
+    public Student(int studentNumber, DegreeProgram degreeProgram) {
+        this(studentNumber, Collections.emptyList(), Collections.emptyList(), degreeProgram);
     }
 
     void enlist(Section newSection){
@@ -34,6 +37,7 @@ class Student {
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
         });
+        newSection.checkIfSubjectPartofDegreeProgram(this.studentDegreeProgram);
         newSection.checkForMissingPrerequisites(this.completedSubjects);
         newSection.enlistStudent();
         this.sections.add(newSection);

@@ -69,6 +69,9 @@ class Section {
         }
     }
 
+    void checkIfSubjectPartofDegreeProgram(DegreeProgram degreeProgram){
+        degreeProgram.checkIfSubjectPartOfProgram(subject);
+    }
     private boolean hasScheduleConflict(Section section){
         return this.schedule.equals(section.getSchedule());
     }
