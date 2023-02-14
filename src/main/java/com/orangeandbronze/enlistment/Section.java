@@ -86,6 +86,10 @@ class Section {
         return !(completedSubjects.containsAll(this.getSubject().getPrerequisites()));
     }
 
+    public double getSectionSubjectUnits(){
+        return subject.getUnits();
+    }
+
     public Schedule getSchedule(){
         return schedule;
     }

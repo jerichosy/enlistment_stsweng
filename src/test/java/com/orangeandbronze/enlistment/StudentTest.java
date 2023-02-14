@@ -180,5 +180,25 @@ public class StudentTest {
         Section sec_must_not_in_enlistment = new Section("IE1", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject_not_in_degree);
         assertThrows(Exception.class, () -> student1.enlist(sec_must_not_in_enlistment));
     }
+
+    @Test
+    void student_exceed_24_units_enlisted(){
+
+        // Subjects that are part of CS_ST Degree
+        Subject subject1 = new Subject("CCPROG3",20,false);
+        Subject subject2 = new Subject("CSMATH1",10,false);
+
+        Collection<Subject> subjectsUnderDegreeProgram = new HashSet<>(List.of(subject1, subject2));
+        DegreeProgram degreeProgram_CSST = new DegreeProgram("CS_ST", subjectsUnderDegreeProgram);
+        Student student1 = new Student(1, degreeProgram_CSST);
+
+
+        Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
+        Section sec2_with_subject10units = new Section("B", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject2);
+
+        student1.enlist(sec1_with_subject20units);
+
+        assertThrows(Exception.class, () -> student1.enlist(sec2_with_subject10units));
+    }
 }
 
