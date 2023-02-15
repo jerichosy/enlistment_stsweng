@@ -73,6 +73,10 @@ class Student {
         return new HashSet<>(completedSubjects);
     }
 
+    public double getTotalCurrentUnits() {
+        return totalCurrentUnits;
+    }
+
     BigDecimal requestAssessment() {
         notEmpty(sections);
         final BigDecimal VALUE_ADDED_TAX_MULTIPLIER = new BigDecimal("1.12");
