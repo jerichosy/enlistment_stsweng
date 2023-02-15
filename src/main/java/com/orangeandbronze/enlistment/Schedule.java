@@ -19,6 +19,20 @@ class Schedule {
         this.endPeriod = endPeriod;
     }
 
+    public boolean checkOverlap(Schedule otherSchedule){
+        return this.startPeriod.getValue() <= otherSchedule.getEndPeriod().getValue() &&
+                otherSchedule.getStartPeriod().getValue() <= this.endPeriod.getValue();
+    }
+
+    public Period getStartPeriod() {
+        return startPeriod;
+    }
+
+    public Period getEndPeriod() {
+        return endPeriod;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
