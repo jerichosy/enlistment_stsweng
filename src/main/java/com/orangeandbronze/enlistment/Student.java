@@ -10,7 +10,7 @@ class Student {
     private final Collection<Section> sections = new HashSet<>();
     private final Collection<Subject> completedSubjects = new HashSet<>();
 
-    private double noUnitsEnlisted;
+    private double totalCurrentUnits;
     private final DegreeProgram studentDegreeProgram;
     Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects, DegreeProgram studentDegreeProgram){
         if (studentNumber < 0){
@@ -26,7 +26,7 @@ class Student {
         this.sections.addAll(sections);
         this.sections.removeIf(Objects::isNull);
         this.completedSubjects.addAll(completedSubjects);
-        this.noUnitsEnlisted = 0;
+        this.totalCurrentUnits = 0;
     }
 
     public Student(int studentNumber, DegreeProgram degreeProgram) {
@@ -35,7 +35,6 @@ class Student {
 
     void enlist(Section newSection){
         notNull(newSection);
-        double noUnitsEnlistedIfSectionEnlisted = this.noUnitsEnlisted + newSection.getSectionSubjectUnits();
         //loop through all current sections, check for same sched
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
@@ -43,13 +42,18 @@ class Student {
 
         newSection.checkIfSubjectPartofDegreeProgram(this.studentDegreeProgram);
         newSection.checkForMissingPrerequisites(this.completedSubjects);
-        if (noUnitsEnlistedIfSectionEnlisted > 24){
-            throw new RuntimeException(
-                    "You have now exceed the 24 units subject enlisted. Number of units after this section enlisted: " + noUnitsEnlistedIfSectionEnlisted);
-        }
+        this.checkIfUnitLimitExceeded(newSection.getSectionSubjectUnits());
         newSection.enlistStudent();
+        this.totalCurrentUnits += newSection.getSectionSubjectUnits();
         this.sections.add(newSection);
+    }
 
+    void checkIfUnitLimitExceeded(double subjectUnits) {
+        double addedUnits = this.getTotalCurrentUnits() + subjectUnits;
+        if (addedUnits > 24) {
+            throw new ExceededUnitLimitException(
+                    "You have now exceed the 24 units subject enlisted. Number of units after this section enlisted: " + addedUnits);
+        }
     }
 
     void cancelEnlist(Section currentSection){
