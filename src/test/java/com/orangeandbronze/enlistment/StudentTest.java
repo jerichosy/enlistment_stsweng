@@ -21,7 +21,7 @@ public class StudentTest {
         //Given 1 student and sections w/conflict
         Student student = new Student(1);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT1);
-        Section sec2 = new Section("B",  new Schedule(Days.MTH, Period.H0830), DEFAULT_ROOM, DEFAULT_SUBJECT2);
+        Section sec2 = new Section("B",  new Schedule(Days.MTH, Period.H0830, Period.H0900), DEFAULT_ROOM, DEFAULT_SUBJECT2);
         // When student enlist in both sections
         student.enlist(sec1);
         student.enlist(sec2);
@@ -49,7 +49,7 @@ public class StudentTest {
     @Test
     void enlist_2_section_same_subject(){
         //Given a student and 2 sections w/ same subject
-        Schedule schedule = new Schedule(Days.MTH, H1600);
+        Schedule schedule = new Schedule(Days.MTH, Period.H0830, Period.H0900);
         Student student = new Student(1);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT1);
         Section sec2 = new Section("B", schedule, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -155,7 +155,7 @@ public class StudentTest {
     @Test
     void student_request_assessment() {
         Student student1 = new Student(1);
-        Schedule schedule = new Schedule(Days.MTH, H1600);
+        Schedule schedule = new Schedule(Days.MTH, Period.H0830, Period.H0900);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT3);
         Section sec2 = new Section("B", schedule, DEFAULT_ROOM, DEFAULT_SUBJECT1);
         double assessment;
