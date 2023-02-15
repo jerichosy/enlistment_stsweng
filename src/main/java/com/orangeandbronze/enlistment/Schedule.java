@@ -14,6 +14,9 @@ class Schedule {
         Validate.notNull(days);
         Validate.notNull(startPeriod);
         Validate.notNull(endPeriod);
+        if (startPeriod.getValue() >= endPeriod.getValue()){
+            throw new InvalidPeriodException("Schedule start period should not be more than or equal to end period.");
+        }
         this.days = days;
         this.startPeriod = startPeriod;
         this.endPeriod = endPeriod;
