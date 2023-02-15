@@ -68,6 +68,9 @@ class Section {
             throw new MissingPrerequisiteException("Student is missing prerequisites" + this.getSubject().getPrerequisites());
         }
     }
+    void checkIfSubjectPartofDegreeProgram(DegreeProgram degreeProgram){
+        degreeProgram.checkIfSubjectPartOfProgram(subject);
+    }
 
     boolean hasScheduleConflict(Section section){
         if (this.schedule.equals(section.getSchedule())){
@@ -85,6 +88,10 @@ class Section {
         if (this.getSubject().getPrerequisites().isEmpty())
             return false;
         return !(completedSubjects.containsAll(this.getSubject().getPrerequisites()));
+    }
+
+    public double getSectionSubjectUnits(){
+        return subject.getUnits();
     }
 
     public Schedule getSchedule(){

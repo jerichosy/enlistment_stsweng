@@ -10,7 +10,9 @@ class Student {
     private final Collection<Section> sections = new HashSet<>();
     private final Collection<Subject> completedSubjects = new HashSet<>();
 
-    Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects){
+    private double totalCurrentUnits;
+    private final DegreeProgram studentDegreeProgram;
+    Student(int studentNumber, Collection<Section> sections, Collection<Subject> completedSubjects, DegreeProgram studentDegreeProgram){
         if (studentNumber < 0){
             throw new IllegalArgumentException(
                     "studentNumber should be non-negative, was:" + studentNumber);
@@ -18,14 +20,17 @@ class Student {
         if (sections == null){
             throw new NullPointerException("sections should not be null");
         }
+        notNull(studentDegreeProgram);
         this.studentNumber = studentNumber;
+        this.studentDegreeProgram = studentDegreeProgram;
         this.sections.addAll(sections);
         this.sections.removeIf(Objects::isNull);
         this.completedSubjects.addAll(completedSubjects);
+        this.totalCurrentUnits = 0;
     }
 
-    public Student(int studentNumber) {
-        this(studentNumber, Collections.emptyList(), Collections.emptyList());
+    public Student(int studentNumber, DegreeProgram degreeProgram) {
+        this(studentNumber, Collections.emptyList(), Collections.emptyList(), degreeProgram);
     }
 
     void enlist(Section newSection){
@@ -34,10 +39,21 @@ class Student {
         sections.forEach( currSection -> {
             currSection.checkForConflict(newSection);
         });
-        newSection.checkForMissingPrerequisites(this.completedSubjects);
-        newSection.enlistStudent();
-        this.sections.add(newSection);
 
+        newSection.checkIfSubjectPartofDegreeProgram(this.studentDegreeProgram);
+        newSection.checkForMissingPrerequisites(this.completedSubjects);
+        this.checkIfUnitLimitExceeded(newSection.getSectionSubjectUnits());
+        newSection.enlistStudent();
+        this.totalCurrentUnits += newSection.getSectionSubjectUnits();
+        this.sections.add(newSection);
+    }
+
+    void checkIfUnitLimitExceeded(double subjectUnits) {
+        double addedUnits = this.getTotalCurrentUnits() + subjectUnits;
+        if (addedUnits > 24) {
+            throw new ExceededUnitLimitException(
+                    "You have now exceed the 24 units subject enlisted. Number of units after this section enlisted: " + addedUnits);
+        }
     }
 
     void cancelEnlist(Section currentSection){
@@ -55,6 +71,10 @@ class Student {
 
     Collection<Subject> getCompletedSubjects(){
         return new HashSet<>(completedSubjects);
+    }
+
+    public double getTotalCurrentUnits() {
+        return totalCurrentUnits;
     }
 
     BigDecimal requestAssessment() {
