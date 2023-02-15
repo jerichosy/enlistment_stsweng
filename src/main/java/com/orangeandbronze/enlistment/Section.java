@@ -54,8 +54,8 @@ class Section {
 
     void checkForConflict(Section section) {
         if(this.hasScheduleConflict(section)){
-            throw new ScheduleConflictException("current section " + section + " has same schedule as new section "
-                    + section + " at schedule" + section.getSchedule());
+            throw new ScheduleConflictException("Current section " + this + " has an overlapping schedule with the new section "
+                    + section + " at schedule " + this.getSchedule() + " and " +  section.getSchedule());
         }
         if (this.hasSubjectConflict(section)){
             throw new SubjectConflictException("Current section " + section +
@@ -63,21 +63,25 @@ class Section {
         }
     }
 
-    void checkForMissingPrerequisites(Collection<Subject> completedSubjects) { // TODO: move this to Subject class
+    void checkForMissingPrerequisites(Collection<Subject> completedSubjects) {
         if (this.hasMissingPrerequisite(completedSubjects)) {
             throw new MissingPrerequisiteException("Student is missing prerequisites" + this.getSubject().getPrerequisites());
         }
     }
 
-    private boolean hasScheduleConflict(Section section){
-        return this.schedule.equals(section.getSchedule());
+    boolean hasScheduleConflict(Section section){
+        if (this.schedule.equals(section.getSchedule())){
+            return true;
+        }
+        // check for overlap
+        return this.getSchedule().checkOverlap(section.getSchedule());
     }
 
-    private boolean hasSubjectConflict(Section section) {
+    boolean hasSubjectConflict(Section section) {
         return this.subject.equals(section.getSubject());
     }
 
-    private boolean hasMissingPrerequisite(Collection<Subject> completedSubjects) {
+    boolean hasMissingPrerequisite(Collection<Subject> completedSubjects) {
         if (this.getSubject().getPrerequisites().isEmpty())
             return false;
         return !(completedSubjects.containsAll(this.getSubject().getPrerequisites()));

@@ -12,8 +12,10 @@ import java.util.List;
 
 public class StudentTest {
 
-    static final Schedule DEFAULT_SCHEDULE = new Schedule(Days.MTH, Period.H1000);
+    static final Schedule DEFAULT_SCHEDULE = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+    static final Schedule DEFAULT_SCHEDULE2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
     static final Room DEFAULT_ROOM = new Room("AG1710", 1);
+    static final Room DEFAULT_ROOM2 = new Room("AG1711", 1);
     static final Subject DEFAULT_SUBJECT1 = new Subject("CCPROG1", 3, false);
     static final Subject DEFAULT_SUBJECT2 = new Subject("CCICOMP", 3, false);
     static final Subject DEFAULT_SUBJECT3 = new Subject("CCPROG2", 3, true);
@@ -22,7 +24,7 @@ public class StudentTest {
         //Given 1 student and sections w/conflict
         Student student = new Student(1);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT1);
-        Section sec2 = new Section("B",  new Schedule(Days.MTH, Period.H0830), DEFAULT_ROOM, DEFAULT_SUBJECT2);
+        Section sec2 = new Section("B",  new Schedule(Days.MTH, Period.H0830, Period.H0900), DEFAULT_ROOM, DEFAULT_SUBJECT2);
         // When student enlist in both sections
         student.enlist(sec1);
         student.enlist(sec2);
@@ -50,7 +52,7 @@ public class StudentTest {
     @Test
     void enlist_2_section_same_subject(){
         //Given a student and 2 sections w/ same subject
-        Schedule schedule = new Schedule(Days.MTH, H1600);
+        Schedule schedule = new Schedule(Days.MTH, Period.H0830, Period.H0900);
         Student student = new Student(1);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT1);
         Section sec2 = new Section("B", schedule, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -156,7 +158,7 @@ public class StudentTest {
     @Test
     void student_request_assessment() {
         Student student1 = new Student(1);
-        Schedule schedule = new Schedule(Days.MTH, H1600);
+        Schedule schedule = new Schedule(Days.MTH, Period.H0830, Period.H0900);
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT3);
         Section sec2 = new Section("B", schedule, DEFAULT_ROOM, DEFAULT_SUBJECT1);
         student1.enlist(sec1);
@@ -169,6 +171,99 @@ public class StudentTest {
     void student_request_assessment_no_sections() {
         Student student1 = new Student(1);
         assertThrows(Exception.class, student1::requestAssessment);
+    }
+
+    @Test
+    void student_enlist_first_overlaps_second_schedule() {
+        //  xxx
+        //   xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec1);
+        assertThrows(ScheduleConflictException.class, () -> student1.enlist(sec2));
+    }
+
+    @Test
+    void student_enlist_second_overlaps_first_schedule() {
+        //   xxx
+        //  xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec2);
+        assertThrows(ScheduleConflictException.class, () -> student1.enlist(sec1));
+    }
+
+    @Test
+    void student_enlist_same_schedule() {
+        //  xxx
+        //  xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec2);
+        assertThrows(ScheduleConflictException.class, () -> student1.enlist(sec1));
+    }
+
+    @Test
+    void student_enlist_first_no_overlap_second_schedule() {
+        //  xxx
+        //      xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1300, Period.H1400);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec1);
+        student1.enlist(sec2);
+        assertTrue(student1.getSections().containsAll(List.of(sec2)));
+    }
+
+    @Test
+    void student_enlist_second_no_overlap_first_schedule() {
+        //      xxx
+        //  xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1300, Period.H1400);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec2);
+        student1.enlist(sec1);
+        assertTrue(student1.getSections().containsAll(List.of(sec1)));
+    }
+
+    @Test
+    void student_enlist_first_end_equals_second_start_schedule() {
+        //  xxx
+        //    xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1230, Period.H1400);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec1);
+        assertThrows(ScheduleConflictException.class, () -> student1.enlist(sec2));
+    }
+
+    @Test
+    void student_enlist_second_end_equals_first_start_schedule() {
+        //     xxx
+        //  xxx
+        Student student1 = new Student(1);
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1230, Period.H1400);
+        Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        Section sec2 = new Section("B", schedule2, DEFAULT_ROOM2, DEFAULT_SUBJECT2);
+        student1.enlist(sec2);
+        assertThrows(ScheduleConflictException.class, () -> student1.enlist(sec1));
     }
 }
 
