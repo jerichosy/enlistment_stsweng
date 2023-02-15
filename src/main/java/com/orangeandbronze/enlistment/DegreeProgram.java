@@ -25,4 +25,17 @@ public class DegreeProgram {
                     "The following doesn't belong to the degree" + degreeProgramName );
         }
      }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DegreeProgram that = (DegreeProgram) o;
+        return degreeProgramName.equals(that.degreeProgramName) && degreeProgramSubjects.equals(that.degreeProgramSubjects);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(degreeProgramName, degreeProgramSubjects);
+    }
 }
