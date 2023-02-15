@@ -45,18 +45,18 @@
    4. [x] Value Added Tax (VAT) is 12%
 
 ### Iteration 3 Requirements
-1. [ ] A student cannot enlist in more than 24 units.
+1. [x] A student cannot enlist in more than 24 units.
 2. [ ] No two sections can share the same room if their schedules overlap.
-3. [ ] A student belongs to a degree program.
-4. [ ] A degree program is a collection of subjects that a student may take.
-5. [ ] A student cannot enroll in section if the subject of the section is not part of the student's degree program.
-6. [ ] All financial values should be represented as BigDecimal.
+3. [x] A student belongs to a degree program.
+4. [x] A degree program is a collection of subjects that a student may take.
+5. [x] A student cannot enroll in section if the subject of the section is not part of the student's degree program.
+6. [x] All financial values should be represented as BigDecimal.
 
    #### Urgent Changes
-7. [ ] A student may not enlist in a section if its schedule overlaps with the schedule of any of its currently enlisted sections.
-8. [ ] Periods may be of any duration of 30-min increments, w/in the hours of 8:30am - 5:30pm.
-9. [ ] Periods may begin and may end at the top of each hour (9:00, 10:00, 11:00...) or at the bottom of each hour (9:30, 10:30, 11:30...).
-10. [ ] End of a period may not be on or before the start of the period.
+7. [x] A student may not enlist in a section if its schedule overlaps with the schedule of any of its currently enlisted sections.
+8. [x] Periods may be of any duration of 30-min increments, w/in the hours of 8:30am - 5:30pm.
+9. [x] Periods may begin and may end at the top of each hour (9:00, 10:00, 11:00...) or at the bottom of each hour (9:30, 10:30, 11:30...).
+10. [x] End of a period may not be on or before the start of the period.
 
 ##### Examples
 
