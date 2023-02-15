@@ -182,6 +182,14 @@ public class StudentTest {
     }
 
     @Test
+    void student_enlist_subject_part_of_degree_program(){
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
+        Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, DEFAULT_SUBJECT1);
+        student1.enlist(section);
+        assertTrue(student1.getSections().containsAll(List.of(section)));
+    }
+
+    @Test
     void student_exceed_24_units_enlisted(){
 
         // Subjects that are part of CS_ST Degree
