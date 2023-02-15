@@ -132,7 +132,7 @@ public class StudentTest {
         Collection<Subject> subjectPrerequisites = new HashSet<>(studentCompletedSubjects);
         subjectPrerequisites.add(new Subject("CCPROG2", 3, false));
 
-        Subject subject = new Subject("CCPROG3", 3, false, subjectPrerequisites);
+        Subject subject = new Subject("CCICOMP", 3, false, subjectPrerequisites);
         Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject);
 
         assertThrows(MissingPrerequisiteException.class, () -> student.enlist(section));
@@ -145,7 +145,7 @@ public class StudentTest {
         prerequisites.add(new Subject("CCPROG2", 3, false));
 
         Student student = new Student(1, Collections.emptyList(), prerequisites, DEFAULT_DEGREE_PROGRAM);
-        Subject subject = new Subject("CCPROG3", 3, false, prerequisites);
+        Subject subject = new Subject("CCICOMP", 3, false, prerequisites);
         Section section = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject);
         student.enlist(section);
         assertTrue(student.getSections().containsAll(List.of(section)));
@@ -204,7 +204,7 @@ public class StudentTest {
 
 
         Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
-        Section sec2_with_subject10units = new Section("B", new Schedule(Days.MTH, Period.H1130), DEFAULT_ROOM, subject2);
+        Section sec2_with_subject10units = new Section("B", new Schedule(Days.MTH, Period.H1330, Period.H1430), DEFAULT_ROOM, subject2);
 
         student1.enlist(sec1_with_subject20units);
 
@@ -224,7 +224,7 @@ public class StudentTest {
 
 
         Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
-        Section sec2_with_subject3units = new Section("B", new Schedule(Days.MTH, Period.H1130), DEFAULT_ROOM, subject2);
+        Section sec2_with_subject3units = new Section("B", new Schedule(Days.MTH, Period.H1330, Period.H1430), DEFAULT_ROOM, subject2);
 
         student1.enlist(sec1_with_subject20units);
         student1.enlist(sec2_with_subject3units);
@@ -249,7 +249,7 @@ public class StudentTest {
 
 
         Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
-        Section sec2_with_subject3units = new Section("B", new Schedule(Days.MTH, Period.H1130), DEFAULT_ROOM, subject2);
+        Section sec2_with_subject3units = new Section("B", new Schedule(Days.MTH, Period.H1330, Period.H1430), DEFAULT_ROOM, subject2);
 
         student1.enlist(sec1_with_subject20units);
         student1.enlist(sec2_with_subject3units);
@@ -265,7 +265,7 @@ public class StudentTest {
     void student_enlist_first_overlaps_second_schedule() {
         //  xxx
         //   xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -278,7 +278,7 @@ public class StudentTest {
     void student_enlist_second_overlaps_first_schedule() {
         //   xxx
         //  xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -291,7 +291,7 @@ public class StudentTest {
     void student_enlist_same_schedule() {
         //  xxx
         //  xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -304,7 +304,7 @@ public class StudentTest {
     void student_enlist_first_no_overlap_second_schedule() {
         //  xxx
         //      xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1300, Period.H1400);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -318,7 +318,7 @@ public class StudentTest {
     void student_enlist_second_no_overlap_first_schedule() {
         //      xxx
         //  xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1300, Period.H1400);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -332,7 +332,7 @@ public class StudentTest {
     void student_enlist_first_end_equals_second_start_schedule() {
         //  xxx
         //    xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1230, Period.H1400);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
@@ -345,7 +345,7 @@ public class StudentTest {
     void student_enlist_second_end_equals_first_start_schedule() {
         //     xxx
         //  xxx
-        Student student1 = new Student(1);
+        Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
         Schedule schedule2 = new Schedule(Days.MTH, Period.H1230, Period.H1400);
         Section sec1 = new Section("A", schedule1, DEFAULT_ROOM, DEFAULT_SUBJECT1);
