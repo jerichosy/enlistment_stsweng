@@ -54,8 +54,8 @@ class Section {
 
     void checkForConflict(Section section) {
         if(this.hasScheduleConflict(section)){
-            throw new ScheduleConflictException("current section " + section + " has same schedule as new section "
-                    + section + " at schedule" + section.getSchedule());
+            throw new ScheduleConflictException("Current section " + this + " has an overlapping schedule with the new section "
+                    + section + " at schedule " + this.getSchedule() + " and " +  section.getSchedule());
         }
         if (this.hasSubjectConflict(section)){
             throw new SubjectConflictException("Current section " + section +
