@@ -21,7 +21,7 @@ public class DegreeProgram {
 
      void checkIfSubjectPartOfProgram(Subject subject){
         if (!degreeProgramSubjects.contains(subject)){
-            throw new RuntimeException(
+            throw new NotPartOfDegreeProgramException(
                     "The following doesn't belong to the degree" + degreeProgramName );
         }
      }
