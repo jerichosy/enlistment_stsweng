@@ -178,7 +178,7 @@ public class StudentTest {
         Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
         Subject subject_not_in_degree = new Subject("IEDESGN",3,false);
         Section sec_must_not_in_enlistment = new Section("IE1", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject_not_in_degree);
-        assertThrows(Exception.class, () -> student1.enlist(sec_must_not_in_enlistment));
+        assertThrows(NotPartOfDegreeProgramException.class, () -> student1.enlist(sec_must_not_in_enlistment));
     }
 
     @Test
