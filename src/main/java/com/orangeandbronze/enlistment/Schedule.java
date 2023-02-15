@@ -6,14 +6,17 @@ import java.util.Objects;
 
 class Schedule {
     private final Days days;
-    private final Period period;
+    private final Period startPeriod;
+    private final Period endPeriod;
 
 
-    Schedule(Days days, Period period) {
+    Schedule(Days days, Period startPeriod, Period endPeriod) {
         Validate.notNull(days);
-        Validate.notNull(period);
+        Validate.notNull(startPeriod);
+        Validate.notNull(endPeriod);
         this.days = days;
-        this.period = period;
+        this.startPeriod = startPeriod;
+        this.endPeriod = endPeriod;
     }
 
     @Override
@@ -21,17 +24,21 @@ class Schedule {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Schedule schedule = (Schedule) o;
-        return days == schedule.days && period == schedule.period;
-    }
-
-    @Override
-    public String toString() {
-        return days+" "+period;
+        return days == schedule.days && startPeriod == schedule.startPeriod && endPeriod == schedule.endPeriod;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(days, period);
+        return Objects.hash(days, startPeriod, endPeriod);
+    }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "days=" + days +
+                ", startPeriod=" + startPeriod +
+                ", endPeriod=" + endPeriod +
+                '}';
     }
 }
 
