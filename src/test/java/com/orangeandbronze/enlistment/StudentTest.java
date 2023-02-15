@@ -194,11 +194,61 @@ public class StudentTest {
 
 
         Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
-        Section sec2_with_subject10units = new Section("B", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject2);
+        Section sec2_with_subject10units = new Section("B", new Schedule(Days.MTH, Period.H1130), DEFAULT_ROOM, subject2);
 
         student1.enlist(sec1_with_subject20units);
 
-        assertThrows(Exception.class, () -> student1.enlist(sec2_with_subject10units));
+        assertThrows(ExceededUnitLimitException.class, () -> student1.enlist(sec2_with_subject10units));
+    }
+
+    @Test
+    void student_less_24_units_enlisted(){
+
+        // Subjects that are part of CS_ST Degree
+        Subject subject1 = new Subject("CCPROG3",20,false);
+        Subject subject2 = new Subject("CSMATH1",3,false);
+
+        Collection<Subject> subjectsUnderDegreeProgram = new HashSet<>(List.of(subject1, subject2));
+        DegreeProgram degreeProgram_CSST = new DegreeProgram("CS_ST", subjectsUnderDegreeProgram);
+        Student student1 = new Student(1, degreeProgram_CSST);
+
+
+        Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
+        Section sec2_with_subject3units = new Section("B", new Schedule(Days.MTH, Period.H1130), DEFAULT_ROOM, subject2);
+
+        student1.enlist(sec1_with_subject20units);
+        student1.enlist(sec2_with_subject3units);
+        assertTrue(student1.getSections().containsAll(List.of(sec2_with_subject3units)));
+
+        assertAll(
+                () -> assertTrue(student1.getSections().containsAll(List.of(sec2_with_subject3units))),
+                () -> assertTrue(student1.getTotalCurrentUnits() < 24)
+        );
+    }
+
+    @Test
+    void student_24_units_enlisted(){
+
+        // Subjects that are part of CS_ST Degree
+        Subject subject1 = new Subject("CCPROG3",20,false);
+        Subject subject2 = new Subject("CSMATH1",4,false);
+
+        Collection<Subject> subjectsUnderDegreeProgram = new HashSet<>(List.of(subject1, subject2));
+        DegreeProgram degreeProgram_CSST = new DegreeProgram("CS_ST", subjectsUnderDegreeProgram);
+        Student student1 = new Student(1, degreeProgram_CSST);
+
+
+        Section sec1_with_subject20units = new Section("A", DEFAULT_SCHEDULE, DEFAULT_ROOM, subject1);
+        Section sec2_with_subject3units = new Section("B", new Schedule(Days.MTH, Period.H1130), DEFAULT_ROOM, subject2);
+
+        student1.enlist(sec1_with_subject20units);
+        student1.enlist(sec2_with_subject3units);
+        assertTrue(student1.getSections().containsAll(List.of(sec2_with_subject3units)));
+
+        assertAll(
+                () -> assertTrue(student1.getSections().containsAll(List.of(sec2_with_subject3units))),
+                () -> assertEquals(24, student1.getTotalCurrentUnits())
+        );
     }
 }
 
