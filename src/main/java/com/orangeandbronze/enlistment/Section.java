@@ -70,7 +70,11 @@ class Section {
     }
 
     boolean hasScheduleConflict(Section section){
-        return this.schedule.equals(section.getSchedule());
+        if (this.schedule.equals(section.getSchedule())){
+            return true;
+        }
+        // check for overlap
+        return this.getSchedule().checkOverlap(section.getSchedule());
     }
 
     boolean hasSubjectConflict(Section section) {
