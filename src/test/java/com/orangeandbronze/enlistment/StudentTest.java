@@ -353,5 +353,21 @@ public class StudentTest {
         student1.enlist(sec2);
         assertThrows(ScheduleConflictException.class, () -> student1.enlist(sec1));
     }
+
+    @Test
+    void schedule_start_period_later_than_end_period() {
+        assertThrows(InvalidPeriodException.class, () -> new Schedule(Days.MTH, H1030, H0900));
+    }
+
+    @Test
+    void schedule_start_period_equal_to_end_period() {
+        assertThrows(InvalidPeriodException.class, () -> new Schedule(Days.MTH, H1030, H1030));
+    }
+
+    @Test
+    void schedule_start_period_earlier_than_end_period() {
+        Schedule schedule = new Schedule(Days.MTH, H0930, H1030);
+        assertEquals(schedule, new Schedule(MTH, H0930, H1030));
+    }
 }
 
