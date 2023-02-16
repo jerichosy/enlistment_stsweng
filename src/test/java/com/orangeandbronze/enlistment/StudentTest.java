@@ -14,8 +14,8 @@ public class StudentTest {
 
     static final Schedule DEFAULT_SCHEDULE = new Schedule(Days.MTH, Period.H1000, Period.H1230);
     static final Schedule DEFAULT_SCHEDULE2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
-    static final Room DEFAULT_ROOM = new Room("AG1710", 1);
-    static final Room DEFAULT_ROOM2 = new Room("AG1711", 1);
+    static final Room DEFAULT_ROOM = new Room("AG1710", 1, Collections.emptyList());
+    static final Room DEFAULT_ROOM2 = new Room("AG1711", 1, Collections.emptyList());
     static final Subject DEFAULT_SUBJECT1 = new Subject("CCPROG1", 3, false);
     static final Subject DEFAULT_SUBJECT2 = new Subject("CCICOMP", 3, false);
     static final Subject DEFAULT_SUBJECT3 = new Subject("CCPROG2", 3, true);
@@ -76,7 +76,7 @@ public class StudentTest {
     @Test
     void student_enlist_to_open_section(){
         Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
-        Room room = new Room("AG1710", 5);
+        Room room = new Room("AG1710", 5, Collections.emptyList());
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, room, DEFAULT_SUBJECT1);
         student1.enlist(sec1);
         assertTrue(student1.getSections().containsAll(List.of(sec1)));
@@ -85,7 +85,7 @@ public class StudentTest {
     @Test
     void student_cancel_enlisted_section(){
         Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
-        Room room = new Room("AG1710", 5);
+        Room room = new Room("AG1710", 5, Collections.emptyList());
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, room, DEFAULT_SUBJECT1);
         student1.enlist(sec1);
         assertTrue(student1.getSections().containsAll(List.of(sec1)));
@@ -96,7 +96,7 @@ public class StudentTest {
     @Test
     void student_cancel_unenlisted_section(){
         Student student1 = new Student(1, DEFAULT_DEGREE_PROGRAM);
-        Room room = new Room("AG1710", 5);
+        Room room = new Room("AG1710", 5, Collections.emptyList());
         Section sec1 = new Section("A", DEFAULT_SCHEDULE, room, DEFAULT_SUBJECT1);
         assertThrows(Exception.class, ()-> student1.cancelEnlist(sec1));
     }
@@ -368,6 +368,17 @@ public class StudentTest {
     void schedule_start_period_earlier_than_end_period() {
         Schedule schedule = new Schedule(Days.MTH, H0930, H1030);
         assertEquals(schedule, new Schedule(MTH, H0930, H1030));
+    }
+
+    @Test
+    void section_has_same_room_overlap() {
+        Room room = new Room("AG1710", 5, Collections.emptyList());
+        Schedule schedule1 = new Schedule(Days.MTH, Period.H1000, Period.H1230);
+        Schedule schedule2 = new Schedule(Days.MTH, Period.H1130, Period.H1300);
+        Section sec1 = new Section("A", schedule1, room, DEFAULT_SUBJECT1);
+        room.getTakenTimeSlots().add(sec1.getSchedule());
+
+        assertThrows(SameRoomOverlapException.class, () -> new Section("B", schedule2, room, DEFAULT_SUBJECT2));
     }
 }
 
