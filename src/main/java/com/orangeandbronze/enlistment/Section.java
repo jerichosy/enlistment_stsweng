@@ -21,6 +21,13 @@ class Section {
         notBlank(sectionId);
         isTrue(StringUtils.isAlphanumeric(sectionId),
                 "sectionId must be alphanumeric, was:" + sectionId);
+        Collection<Schedule> timeSlots = classroom.getTakenTimeSlots();
+        for (Schedule currTimeSlot : timeSlots) {
+            if (currTimeSlot.checkOverlap(schedule)) {
+                throw new SameRoomOverlapException("This section shares the same room with another section at the" +
+                        "assigned Schedule.");
+            }
+        }
         this.subject = subject;
         this.sectionId = sectionId;
         this.schedule = schedule;
