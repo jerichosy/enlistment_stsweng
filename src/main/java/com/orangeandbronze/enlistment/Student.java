@@ -82,11 +82,11 @@ class Student {
         final BigDecimal VALUE_ADDED_TAX_MULTIPLIER = new BigDecimal("1.12");
         final BigDecimal MISC_FEES = new BigDecimal(3000);
         final BigDecimal LABORATORY_FEE = new BigDecimal(1000);
-        final int COST_PER_UNIT = 2000;
+        final BigDecimal COST_PER_UNIT = new BigDecimal(2000);
         BigDecimal total = BigDecimal.ZERO;
         for (Section currSection : sections) {
-            double units = currSection.getSubject().getUnits();  // I'm not sure if this should be BigDecimal
-            BigDecimal unitCost = new BigDecimal(COST_PER_UNIT * units);
+            BigDecimal units = BigDecimal.valueOf(currSection.getSubject().getUnits());
+            BigDecimal unitCost = COST_PER_UNIT.multiply(units);
             total = total.add(unitCost);
             if (currSection.getSubject().getIsLaboratory()) {
                 total = total.add(LABORATORY_FEE);

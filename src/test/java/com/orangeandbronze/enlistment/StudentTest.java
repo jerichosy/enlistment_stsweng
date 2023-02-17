@@ -166,7 +166,7 @@ public class StudentTest {
         student1.enlist(sec1);
         student1.enlist(sec2);
         BigDecimal assessment = student1.requestAssessment();
-        assertTrue(assessment.compareTo(BigDecimal.valueOf(17920)) == 0);
+        assertTrue(assessment.compareTo(BigDecimal.valueOf(17920.00)) == 0);
     }
 
     @Test
